@@ -245,7 +245,7 @@ export class GameLogic {
                         break;
                     case 'eat':
                         shadow.processCmd(`eat ${slot2};move ${slot1} ${slot2}`);
-                        shadow.sendMessage('command', `eat ${slot3};move ${slot1} ${slot2}`);
+                        shadow.sendMessage('command', `eat ${slot2};move ${slot1} ${slot2}`);
                         break;
                     case 'perish':
                         shadow.processCmd(`eat ${slot1};eat ${slot2}`);
