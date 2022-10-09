@@ -1,0 +1,50 @@
+.ControlPanel {
+    width: 30rem;
+    height: 36rem;
+    background: #fff;
+    border-radius: .5rem;
+    box-shadow: #0005 .5rem .5rem .5rem;
+    color: #000;
+    display: flex;
+    flex-direction: column;
+    padding: 1rem;
+}
+
+.ControlPanel-log-list {
+    margin: .5rem 0;
+    height: 100%;
+    overflow-y: scroll;
+}
+
+.ControlPanel-log-list-item {
+    padding: .2rem .5rem;
+    background: #ffffff;
+    transition-duration: .2s;
+    border-radius: .2rem;
+}
+
+.ControlPanel-log-list-item .timestamp {
+    margin-right: .3rem;
+    color: #999;
+}
+
+.ControlPanel-log-list-item:hover {
+    background: #efefef;
+    text-shadow: #0003 .05rem .05rem .1rem;
+}
+
+.ControlPanel-log-list-item:active {
+    background: #cccccc;
+}
+
+.ControlPanel-cmd-panel {
+    display: flex;
+}
+
+.ControlPanel-cmd-enter {
+    width: 50px;
+}
+
+.ControlPanel-cmd-input {
+    width: 100%;
+}
