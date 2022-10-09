@@ -16,6 +16,6 @@ export const Translations = {
         title: '机遇棋'
     },
     control: {
-        run: '运行'
+        run: '发送'
     }
 };
