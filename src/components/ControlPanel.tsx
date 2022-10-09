@@ -47,7 +47,7 @@ class LogPanel extends Component<{}, { logs?: ReactElement[] }> {
 export default function ControlPanel() {
     return (
         <div className={'ControlPanel'}>
-            <h2 style={{color: '#333', marginTop: '.5;;rem'}}>{Translations.game.title}</h2>
+            <h2 style={{color: '#333', marginTop: '.5rem'}}>{Translations.game.title}</h2>
             <LogPanel/>
             <form className={'ControlPanel-cmd-panel'} ref={r => {
                 if (r)

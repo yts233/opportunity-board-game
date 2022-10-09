@@ -136,7 +136,8 @@ export class GameLogic {
             switch (args[1]) {
                 case 'first':
                     this._console.log(<PlayLog>你是先手</PlayLog>);
-                    this._waitFirstHand = true;
+                    if (args[2] !== 'response')
+                        this._waitFirstHand = true;
                     this.prepareCardLogic(true);
                     break;
                 case 'second':
@@ -144,8 +145,8 @@ export class GameLogic {
                         this.prepareCardLogic(false);
                     else {
                         this._console.log(<PlayLog>你是后手，等待对方操作</PlayLog>);
-                        this.sendMessage('command', 'start first response');
                         this._waitSecondHand = true;
+                        this.sendMessage('command', 'start first response');
                     }
                     break;
                 default:
@@ -230,7 +231,7 @@ export class GameLogic {
 
         function requestMoveB(slot1: number, chessman1: Chessman) {
             let validMoves = shadow._session.board.getMoveSlots(slot1);
-            shadow._session.board.requestInteract((slot2, chessman2) => {
+            shadow._session.board.requestInteract((slot2) => {
                 chessman1.selected = false;
                 let move = validMoves.find(p => p.slot === slot2);
                 if (!move) {
@@ -277,8 +278,9 @@ export class GameLogic {
 
     private connectedLogic() {
         this._console.log(<PlayLog system>已连接到服务器
-            <CmdLink cmd={'connect ask'} canRepeat>加入到其他伙伴</CmdLink>
-            <CmdLink cmd={'connect wait'} canRepeat>等待其他伙伴加入</CmdLink></PlayLog>);
+            <CmdLink cmd={'connect ask'} canRepeat>连接到其他玩家</CmdLink>
+            <CmdLink cmd={'connect wait'} canRepeat>其他玩家连接到你</CmdLink>
+            <CmdLink cmd={'connect auto'} canRepeat>自动匹配</CmdLink></PlayLog>);
     }
 
     private connectLogic(args: string[]) {
@@ -307,6 +309,9 @@ export class GameLogic {
                 });
                 break;
             }
+            case 'auto':
+                this.autoConnectLogic();
+                break;
             case 'try': {
                 if (!args[2])
                     throw new Error('id needed');
@@ -405,5 +410,13 @@ export class GameLogic {
         }
 
         requestChange();
+    }
+
+    private autoConnectLogic() {
+        throw new Error('功能待开发');
+        //let a = setInterval(() => {
+        //    this._console.log(<PlayLog system>匹配中...</PlayLog>);
+        //    this.
+        //}, 5000);
     }
 }

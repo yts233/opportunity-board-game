@@ -1,13 +1,14 @@
 import {HubConnection, HubConnectionBuilder} from "@microsoft/signalr";
 import GameSession from "../models/GameSession";
 
-const serverAddress = 'https://api.yts233.tk/obghub';
+//const serverAddress = 'https://api.yts233.tk/obghub';
+const serverAddress = 'https://localhost:7242/hub';
 
 export default class GameClient {
     constructor() {
-        this._connection = new HubConnectionBuilder().withUrl(serverAddress).withAutomaticReconnect().build();
+        this._connection = new HubConnectionBuilder().withUrl(serverAddress).build();
         this._connection.on('Message', (connectionId: string, type: string, message: string) => this.onMessage(connectionId, type, message));
-        this._connection.onclose(p => GameSession.current.console.logErr(<>错误 {p?.toString()}</>));
+        this._connection.onclose(p => GameSession.current.console.logErr(<>断开连接 {p?.toString()}</>));
     }
 
     private _connection: HubConnection;

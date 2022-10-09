@@ -29,7 +29,7 @@ export function chessmanTypeToId(type: ChessmanType) {
  * 克制表
  */
 const eatTable = {
-    'king': ['knight', 'infantry', 'spearman'],
+    'king': ['knight', 'infantry', 'spearman', 'wizard'],
     'wizard': ['civilian'],
     'knight': ['civilian', 'infantry', 'wizard'],
     'infantry': ['civilian', 'spearman', 'wizard'],
