@@ -54,7 +54,7 @@ export default class GameConsole {
             if (cmd.startsWith('@'))
                 this.onSendCmd(cmd.substring(1));
             else
-                this.onSendCmd('#' + cmd.substring);
+                this.onSendCmd('#' + cmd);
         } catch (ex) {
             this.logErr(<>{(ex as Error).message}</>);
             console.log(ex);
