@@ -1,8 +1,8 @@
 import {HubConnection, HubConnectionBuilder} from "@microsoft/signalr";
 import GameSession from "../models/GameSession";
 
-//const serverAddress = 'https://api.yts233.tk/obghub';
-const serverAddress = 'https://localhost:7242/hub';
+const serverAddress = 'https://api.yts233.tk/obghub';
+//const serverAddress = 'https://localhost:7242/hub';
 
 export default class GameClient {
     constructor() {
