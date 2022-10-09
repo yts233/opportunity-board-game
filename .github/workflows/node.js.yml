@@ -28,3 +28,16 @@ jobs:
         cache: 'npm'
     - run: npm ci
     - run: npm run build --if-present
+    
+    - uses: actions/upload-pages-artifact@v1.0.4
+    - name: Upload GitHub Pages artifact
+      with:
+        # Path of the directory containing the static assets.
+        path: build/
+        # Duration after which artifact will expire in days.
+        retention-days: 1
+    
+    - name: Deploy GitHub Pages site
+      uses: actions/deploy-pages@v1.2.1
+      with:
+        token: ${github.token}
