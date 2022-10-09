@@ -2,7 +2,6 @@ import './App.css'
 import Board from "./components/Board";
 import ControlPanel from './components/ControlPanel';
 import GameSession from "./models/GameSession";
-import GameClient from "./services/GameClient";
 
 export default function App() {
     return (
