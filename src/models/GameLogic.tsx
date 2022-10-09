@@ -398,9 +398,9 @@ export class GameLogic {
                 }
                 pool.pop();
                 pool.push(chessman1);
-                let cmd = `place u ${slot} ${chessmanTypeToId(chessman.type)};next`;
-                shadow.processCmd(cmd);
-                shadow.sendMessage('command', cmd);
+                let cmdA = `${slot} ${chessmanTypeToId(chessman.type)};next`;
+                shadow.processCmd('place u ' + cmdA);
+                shadow.sendMessage('command', 'place e ' + cmdA);
             });
         }
 
