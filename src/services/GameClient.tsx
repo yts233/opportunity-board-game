@@ -7,7 +7,7 @@ export default class GameClient {
     constructor() {
         this._connection = new HubConnectionBuilder().withUrl(serverAddress).withAutomaticReconnect().build();
         this._connection.on('Message', (connectionId: string, type: string, message: string) => this.onMessage(connectionId, type, message));
-        this._connection.onclose(p => GameSession.current.console.logErr(<>错误 {p?.message}</>));
+        this._connection.onclose(p => GameSession.current.console.logErr(<>错误 {p?.toString()}</>));
     }
 
     private _connection: HubConnection;

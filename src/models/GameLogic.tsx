@@ -271,7 +271,7 @@ export class GameLogic {
                 this.connectedLogic();
             }
         ).catch(ex => {
-            this._console.logErr(<>{ex.Message}</>);
+            this._console.logErr(<>{ex.toString()}</>);
         });
     }
 

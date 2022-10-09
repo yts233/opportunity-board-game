@@ -55,7 +55,7 @@ export default class GameConsole {
                 this.onSendCmd(cmd.substring(2));
             else this.onSendCmd(cmd);
         } catch (ex) {
-            this.logErr(<>{(ex as Error).message}</>);
+            this.logErr(<>{(ex as Error).toString()}</>);
             console.log(ex);
         }
     }
