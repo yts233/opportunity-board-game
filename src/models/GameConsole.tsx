@@ -52,7 +52,7 @@ export default class GameConsole {
     sendCmd(cmd: string) {
         try {
             if (cmd.startsWith('#@'))
-                this.onSendCmd(cmd.substring(1));
+                this.onSendCmd(cmd.substring(2));
             else this.onSendCmd(cmd);
         } catch (ex) {
             this.logErr(<>{(ex as Error).message}</>);
