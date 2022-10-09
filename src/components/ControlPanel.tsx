@@ -52,7 +52,7 @@ export default function ControlPanel() {
             <form className={'ControlPanel-cmd-panel'} ref={r => {
                 if (r)
                     r.onsubmit = e => {
-                        GameSession.current.console.sendCmd(((e.target as HTMLFormElement).elements.namedItem('cmd') as HTMLInputElement).value);
+                        GameSession.current.console.sendCmd('#'+((e.target as HTMLFormElement).elements.namedItem('cmd') as HTMLInputElement).value);
                         ((e.target as HTMLFormElement).elements.namedItem('cmd') as HTMLInputElement).value = '';
                         return false;
                     };
