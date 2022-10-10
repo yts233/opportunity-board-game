@@ -240,7 +240,7 @@ export class GameLogic {
 
         function requestMoveB(slot1: number, chessman1: Chessman) {
             let validMoves = shadow._session.board.getMoveSlots(slot1);
-            shadow._session.board.requestInteract((slot2) => {
+            shadow._session.board.requestInteract((slot2, chessman2) => {
                 chessman1.selected = false;
                 let move = validMoves.find(p => p.slot === slot2);
                 if (!move) {
@@ -262,6 +262,12 @@ export class GameLogic {
                         shadow.sendMessage('command', `eat ${slot1};eat ${slot2}`);
                         break;
                     case 'swap':
+                        if (chessman2 && chessman2?.type === 'wizard' && !chessman2.flag) {
+                            shadow._console.logErr(<>你的法师已经释放技能了</>);
+                            break;
+                        }
+                        if (chessman2 && chessman2?.type === 'wizard')
+                            chessman2.flag = false;
                         shadow.processCmd(`swap ${slot1} ${slot2}`);
                         shadow.sendMessage('command', `swap ${slot1} ${slot2}`);
                         break;
