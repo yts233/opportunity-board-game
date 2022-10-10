@@ -82,14 +82,14 @@ export class GameLogic {
                     break;
                 }
                 case 'next':
-                    if (!this._session.board.usChessmen && !this._session.board.enemyChessmen) {
+                    if (!this._session.board.usChessmen.length && !this._session.board.enemyChessmen.length) {
                         this._console.log(<PlayLog system>平局</PlayLog>);
-                    } else if (this._session.board.usChessmen && !this._session.board.enemyChessmen) {
+                    } else if (this._session.board.usChessmen.length && !this._session.board.enemyChessmen.length) {
                         this._console.log(<PlayLog>你赢了</PlayLog>);
-                    } else if (this._session.board.usChessmen && !this._session.board.enemyChessmen) {
+                    } else if (this._session.board.usChessmen.length && !this._session.board.enemyChessmen.length) {
                         this._console.log(<PlayLog isRemote>你输了</PlayLog>);
                     }
-                    if (!this._session.board.usChessmen || !this._session.board.enemyChessmen)
+                    if (!this._session.board.usChessmen.length || !this._session.board.enemyChessmen.length)
                         return;
                     this._session.board.rejectAllInteracts();
                     if (isRemote || args[1] === 'repeat') {
