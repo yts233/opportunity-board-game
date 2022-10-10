@@ -1,3 +1,6 @@
+[![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
+[![Node.js CI](https://github.com/yts233/opportunity-board-game/actions/workflows/node.js.yml/badge.svg)](https://github.com/yts233/opportunity-board-game/actions/workflows/node.js.yml)
+
 npm# Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
