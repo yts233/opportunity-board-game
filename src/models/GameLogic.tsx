@@ -17,7 +17,11 @@ export class GameLogic {
     constructor(session: GameSession) {
         this._console = session.console;
         this._session = session;
-        this._console.onSendCmd = cmd => cmd[0] === '$' ? this.processCmd(cmd.substring(1), true) : this.processCmd(cmd);
+        this._console.onSendCmd = cmd => {
+            if (!cmd.startsWith('#') && this._session.connected)
+                throw new Error('多人游戏禁止输入命令');
+            cmd[0] === '$' ? this.processCmd(cmd.substring(1), true) : this.processCmd(cmd);
+        }
     }
 
     processCmd(cmdline: string, isRemote = false) {
@@ -339,7 +343,8 @@ export class GameLogic {
                             this._console.logErr(<>对方拒绝了你的连接请求</>);
                         else
                             this._console.logErr(<>对方正在游戏，无法连接</>);
-                        this.connectedLogic();
+                        if (args[3] !== 'auto')
+                            this.connectedLogic();
                     } else
                         this.processCmd('connect set ' + connectionId);
                 })
@@ -471,7 +476,7 @@ export class GameLogic {
         let b = client.listenGlobal((connectionId, type) => {
             if (type !== 'seek')
                 return;
-            this.processCmd(`connect try ${connectionId}`);
+            this.processCmd(`connect try ${connectionId} auto`);
         });
 
         client.listen((connectionId, type) => {
