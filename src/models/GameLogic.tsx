@@ -84,15 +84,17 @@ export class GameLogic {
                     break;
                 }
                 case 'next':
-                    if (!this._session.board.usChessmen.length && !this._session.board.enemyChessmen.length) {
-                        this._console.log(<PlayLog system>平局</PlayLog>);
-                    } else if (this._session.board.usChessmen.length && !this._session.board.enemyChessmen.length) {
-                        this._console.log(<PlayLog>你赢了</PlayLog>);
-                    } else if (this._session.board.usChessmen.length && !this._session.board.enemyChessmen.length) {
-                        this._console.log(<PlayLog isRemote>你输了</PlayLog>);
+                    if (args[1] === 'check') {
+                        if (!this._session.board.usChessmen.length && !this._session.board.enemyChessmen.length) {
+                            this._console.log(<PlayLog system>平局</PlayLog>);
+                        } else if (this._session.board.usChessmen.length && !this._session.board.enemyChessmen.length) {
+                            this._console.log(<PlayLog>你赢了</PlayLog>);
+                        } else if (this._session.board.usChessmen.length && !this._session.board.enemyChessmen.length) {
+                            this._console.log(<PlayLog isRemote>你输了</PlayLog>);
+                        }
+                        if (!this._session.board.usChessmen.length || !this._session.board.enemyChessmen.length)
+                            return;
                     }
-                    if (!this._session.board.usChessmen.length || !this._session.board.enemyChessmen.length)
-                        return;
                     this._session.board.rejectAllInteracts();
                     if (isRemote || args[1] === 'repeat') {
                         this._console.log(<PlayLog system>轮到你了</PlayLog>);
@@ -106,7 +108,7 @@ export class GameLogic {
                                     <CmdLink cmd={'next repeat'}
                                              canRepeat>不了</CmdLink></PlayLog>);
                             } else {
-                                this._console.log(<PlayLog system>选择一个棋子发送命令 <CmdLink cmd={'next'}
+                                this._console.log(<PlayLog system>选择一个棋子发送命令 <CmdLink cmd={'next check'}
                                                                                                 canRepeat>不了</CmdLink></PlayLog>);
                                 this.singleActionLogic();
                             }
