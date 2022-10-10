@@ -3,9 +3,11 @@ import GameConsole from "./GameConsole";
 import CmdLink from "../components/CmdLink";
 import {GameLogic} from "./GameLogic";
 import GameClient from "../services/GameClient";
+import Introduction from "../components/Introduction";
 
 export default class GameSession {
     constructor() {
+        this._console.log(<Introduction/>);
         this._console.log(<><CmdLink cmd={'multiplayer'} canRepeat>多人模式</CmdLink><CmdLink cmd={'start'}
                                                                                               canRepeat>调试模式</CmdLink></>);
     }
