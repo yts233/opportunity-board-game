@@ -51,10 +51,12 @@ export default class GameConsole {
 
     sendCmd(cmd: string, isInput = false) {
         try {
-            if (cmd.startsWith('#@'))
+            if (cmd.startsWith('#@')) {
+                if (isInput) {
+                    // noinspection ExceptionCaughtLocallyJS
+                    throw new Error('禁止输入命令');
+                }
                 this.onSendCmd(cmd.substring(2));
-            else if (isInput && !cmd.startsWith('#')) { // noinspection ExceptionCaughtLocallyJS
-                throw new Error('禁止输入命令');
             } else this.onSendCmd(cmd);
         } catch (ex) {
             this.logErr(<>{(ex as Error).toString()}</>);
