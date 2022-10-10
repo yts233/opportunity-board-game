@@ -341,8 +341,9 @@ export class GameLogic {
                     throw new Error('id needed');
                 this._session.remoteId = args[2];
                 client.sendMessage(args[2], 'tryCallback', 'accept').catch(ex => this._console.logErr(ex));
-                this._console.logErr(<PlayLog>已与 {args[2]} 建立连接</PlayLog>);
+                this._console.log(<PlayLog>已与 {args[2]} 建立连接</PlayLog>);
                 this.processCmd('start');
+                this.startKeepAlive();
                 client.listen((connectionId, type, message) => this.onMessage(connectionId, type, message));
                 break;
             case 'deny':
@@ -350,16 +351,48 @@ export class GameLogic {
                     throw new Error('id needed');
                 client.sendMessage(args[2], 'tryCallback', 'deny').catch(ex => this._console.logErr(ex));
                 break;
-            case 'set':
+            case 'set': {
                 if (!args[2])
                     throw new Error('id needed');
                 this._session.remoteId = args[2];
-                this._console.logErr(<PlayLog>已与 {args[2]} 建立连接</PlayLog>);
+                this._console.log(<PlayLog>已与 {args[2]} 建立连接</PlayLog>);
+                this._console.log(<PlayLog>等待对方选择先后手</PlayLog>);
                 client.listen((connectionId, type, message) => this.onMessage(connectionId, type, message));
+                this.startKeepAlive();
                 break;
+            }
             default:
                 throw new Error('invalid connect command');
         }
+    }
+
+    private startKeepAlive() {
+        let lastKeepAlive = Date.now();
+        let isAlive = true;
+        this._session.client.listen((connectionId, type) => {
+            if (connectionId !== this._session.remoteId || (type !== 'keepAliveResponse' && type !== 'keepAlive'))
+                return;
+            if (type === 'keepAlive') {
+                this.sendMessage('keepAliveResponse', '');
+                return;
+            }
+            isAlive = true;
+            this.setPing(Date.now() - lastKeepAlive);
+        })
+        const keepAlive = () => {
+            lastKeepAlive = Date.now();
+            if (isAlive) {
+                this.sendMessage('keepAlive', '');
+                isAlive = false;
+                setTimeout(() => {
+                    keepAlive();
+                }, 10000);
+            } else {
+                this._session.onPing(-1);
+                this._console.logErr(<>你和对手似乎断开了连接</>);
+            }
+        };
+        keepAlive();
     }
 
     sendMessage(type: string, message: string, connectionId: string = this._session.remoteId ?? '') {
@@ -413,10 +446,46 @@ export class GameLogic {
     }
 
     private autoConnectLogic() {
-        throw new Error('功能待开发');
-        //let a = setInterval(() => {
-        //    this._console.log(<PlayLog system>匹配中...</PlayLog>);
-        //    this.
-        //}, 5000);
+        let client = this._session.client;
+
+        let a = setInterval(() => {
+            this._console.log(<PlayLog system>正在寻找玩家...</PlayLog>);
+            client.sendGlobalMessage('seek', '').catch(e => this._console.logErr(<>{e.toString()}</>));
+        }, 5000);
+
+        let b = client.listenGlobal((connectionId, type) => {
+            if (type !== 'seek')
+                return;
+            this.processCmd(`connect try ${connectionId}`);
+        });
+
+        client.listen((connectionId, type) => {
+            if (type !== 'try')
+                return;
+            if (this._session.connected)
+                client.sendMessage(connectionId, 'tryCallback', 'playing').catch(ex => this._console.logErr(ex));
+            else {
+                clearInterval(a);
+                b();
+                this.processCmd(`connect accept ${connectionId}`);
+            }
+        });
+
+        let c = client.listen((connectionId, type, message) => {
+            if (type !== 'tryCallback')
+                return;
+            if (message !== 'deny' && message !== 'playing') {
+                c();
+                clearInterval(a);
+                b();
+                //this.processCmd('connect set ' + connectionId);
+            }
+        });
     }
+
+    private setPing(ping: number) {
+        console.log('ping:', ping, 'ms');
+        this._session.onPing(ping);
+    }
+
 }

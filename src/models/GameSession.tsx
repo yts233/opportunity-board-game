@@ -24,7 +24,8 @@ export default class GameSession {
 
     private _board = new GameBoard();
     private _console = new GameConsole();
-    private _cmdInterpreter = new GameLogic(this);
+    // noinspection JSUnusedLocalSymbols
+    private _logic = new GameLogic(this);
     private _client = new GameClient();
 
     get connected() {
@@ -34,4 +35,7 @@ export default class GameSession {
     remoteId = '';
 
     static current = new GameSession();
+
+    onPing: (ping: number) => void = () => {
+    };
 }
