@@ -18,8 +18,6 @@ export class GameLogic {
         this._console = session.console;
         this._session = session;
         this._console.onSendCmd = cmd => {
-            if (!cmd.startsWith('#') && this._session.connected)
-                throw new Error('多人游戏禁止输入命令');
             cmd[0] === '$' ? this.processCmd(cmd.substring(1), true) : this.processCmd(cmd);
         }
     }

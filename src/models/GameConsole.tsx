@@ -49,11 +49,13 @@ export default class GameConsole {
         this._onLog.forEach(p => p(null));
     }
 
-    sendCmd(cmd: string) {
+    sendCmd(cmd: string, isInput = false) {
         try {
             if (cmd.startsWith('#@'))
                 this.onSendCmd(cmd.substring(2));
-            else this.onSendCmd(cmd);
+            else if (isInput) { // noinspection ExceptionCaughtLocallyJS
+                throw new Error('禁止输入命令');
+            } else this.onSendCmd(cmd);
         } catch (ex) {
             this.logErr(<>{(ex as Error).toString()}</>);
             console.log(ex);

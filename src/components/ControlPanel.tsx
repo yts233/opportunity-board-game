@@ -66,7 +66,7 @@ export default class ControlPanel extends Component<{}, { ping?: number }> {
                 <form className={'ControlPanel-cmd-panel'} ref={r => {
                     if (r)
                         r.onsubmit = e => {
-                            GameSession.current.console.sendCmd('#' + ((e.target as HTMLFormElement).elements.namedItem('cmd') as HTMLInputElement).value);
+                            GameSession.current.console.sendCmd('#' + ((e.target as HTMLFormElement).elements.namedItem('cmd') as HTMLInputElement).value, true);
                             ((e.target as HTMLFormElement).elements.namedItem('cmd') as HTMLInputElement).value = '';
                             return false;
                         };
