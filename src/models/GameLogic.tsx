@@ -115,7 +115,7 @@ export class GameLogic {
                         }
                     } else
                         this._console.log(<PlayLog system>等待对方命令</PlayLog>)
-                    if (!isRemote && !this._waitFirstHand)
+                    if (args[1] !== 'repeat' && !isRemote && !this._waitFirstHand)
                         this.sendMessage('command', 'next');
                     if (this._waitFirstHand) {
                         this._waitFirstHand = false;
